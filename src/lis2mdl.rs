@@ -1,7 +1,7 @@
 use crate::error::Error;
 use crate::i2c_abstraction::{ConfigurableRegister, Offset, Output};
 use crate::register_map::RegisterMap;
-use crate::{IntSourceReg, Status};
+use crate::{IntSourceReg, ModeOfOperation, Status};
 use core::marker::PhantomData;
 #[cfg(feature = "async")]
 use embedded_hal_async::{delay::DelayUs, i2c::I2c};
@@ -195,5 +195,37 @@ where
             .write_read(crate::LIS2MDL_I2C_ADDR, &write, &mut read)
             .await?;
         Ok(Status::parse(*read.first().ok_or(Error::InvalidData)?))
+    }
+
+    pub async fn enable_continuous_conversion(&mut self) -> Result<(), Error<E>> {
+        self.update_cfg_reg::<crate::CfgRegA>(|cfg_reg| {
+            cfg_reg.mode = ModeOfOperation::Continuous;
+        })
+        .await?;
+        Ok(())
+    }
+
+    pub async fn take_single_measurement(&mut self) -> Result<(), Error<E>> {
+        self.update_cfg_reg::<crate::CfgRegA>(|cfg_reg| {
+            cfg_reg.mode = ModeOfOperation::Single;
+        })
+        .await?;
+        Ok(())
+    }
+
+    pub async fn enter_idle_mode(&mut self) -> Result<(), Error<E>> {
+        self.update_cfg_reg::<crate::CfgRegA>(|cfg_reg| {
+            cfg_reg.mode = ModeOfOperation::Idle;
+        })
+        .await?;
+        Ok(())
+    }
+
+    pub async fn set_update_rate(&mut self, rate: crate::OutputDataRate) -> Result<(), Error<E>> {
+        self.update_cfg_reg::<crate::CfgRegA>(|cfg_reg| {
+            cfg_reg.data_rate = rate;
+        })
+        .await?;
+        Ok(())
     }
 }
