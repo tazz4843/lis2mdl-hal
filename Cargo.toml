@@ -1,0 +1,16 @@
+[package]
+name = "lis2mdl-hal"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = []
+async = ["embedded-hal-async"]
+blocking = ["embedded-hal"]
+nightly = []
+
+[dependencies]
+embedded-hal = { version = "1.0.0-rc.1", optional = true }
+embedded-hal-async = { version = "1.0.0-rc.1", optional = true }
