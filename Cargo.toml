@@ -1,5 +1,5 @@
 [package]
-name = "lis2mdl-hal"
+name = "lis2mdl"
 version = "0.1.0"
 edition = "2021"
 authors = ["Niko <niko@niko.lgbt>"]
