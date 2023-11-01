@@ -18,9 +18,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "lis2mdl-hal"
+name = "lis2mdl"
 version = "0.1.0"
 dependencies = [
- "embedded-hal",
  "embedded-hal-async",
 ]
