@@ -2,27 +2,28 @@
 //! registers.
 
 use crate::register_map::RegisterMap;
+use crate::MAG_SCALE;
 
-/// Raw data from register `OFFSET_X_REG`
-pub struct OffsetX(pub i16);
+/// Hard-iron offset from `OFFSET_X_REG`, converted to nanotesla
+pub struct OffsetX(pub i32);
 impl OffsetX {
     fn parse(lsb: u8, msb: u8) -> Self {
-        Self(i16::from_le_bytes([lsb, msb]))
+        Self((i16::from_le_bytes([lsb, msb]) as i32) * MAG_SCALE)
     }
 }
 
 /// Raw data from register `OFFSET_Y_REG`
-pub struct OffsetY(pub i16);
+pub struct OffsetY(pub i32);
 impl OffsetY {
     fn parse(lsb: u8, msb: u8) -> Self {
-        Self(i16::from_le_bytes([lsb, msb]))
+        Self((i16::from_le_bytes([lsb, msb]) as i32) * MAG_SCALE)
     }
 }
 /// Raw data from register `OFFSET_Z_REG`
-pub struct OffsetZ(pub i16);
+pub struct OffsetZ(pub i32);
 impl OffsetZ {
     fn parse(lsb: u8, msb: u8) -> Self {
-        Self(i16::from_le_bytes([lsb, msb]))
+        Self((i16::from_le_bytes([lsb, msb]) as i32) * MAG_SCALE)
     }
 }
 
@@ -506,36 +507,27 @@ impl Status {
     }
 }
 
-/// Raw data from `OUTX_REG`
-///
-/// The output data represents the raw magnetic data only if OFFSET_X_REG is equal to zero,
-/// otherwise hard-iron calibration is included.
-pub struct OutX(pub i16);
+/// Field reading in `OutXReg`, converted to nanotesla
+pub struct OutX(pub i32);
 impl OutX {
     fn parse(lsb: u8, msb: u8) -> Self {
-        Self(i16::from_le_bytes([lsb, msb]))
+        Self((i16::from_le_bytes([lsb, msb]) as i32) * MAG_SCALE)
     }
 }
 
-/// Raw data from `OUTY_REG`
-///
-/// The output data represents the raw magnetic data only if OFFSET_Y_REG is equal to zero,
-/// otherwise hard-iron calibration is included.
-pub struct OutY(pub i16);
+/// Field reading in `OutYReg`, converted to nanotesla
+pub struct OutY(pub i32);
 impl OutY {
     fn parse(lsb: u8, msb: u8) -> Self {
-        Self(i16::from_le_bytes([lsb, msb]))
+        Self((i16::from_le_bytes([lsb, msb]) as i32) * MAG_SCALE)
     }
 }
 
-/// Raw data from `OUTZ_REG`
-///
-/// The output data represents the raw magnetic data only if OFFSET_Z_REG is equal to zero,
-/// otherwise hard-iron calibration is included.
-pub struct OutZ(pub i16);
+/// Field reading in `OutZReg`, converted to nanotesla
+pub struct OutZ(pub i32);
 impl OutZ {
     fn parse(lsb: u8, msb: u8) -> Self {
-        Self(i16::from_le_bytes([lsb, msb]))
+        Self((i16::from_le_bytes([lsb, msb]) as i32) * MAG_SCALE)
     }
 }
 

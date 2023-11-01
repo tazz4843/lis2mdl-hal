@@ -14,3 +14,6 @@ pub use i2c_abstraction::{
 pub use lis2mdl::Lis2mdl;
 
 pub const LIS2MDL_I2C_ADDR: u8 = 0x1E;
+
+/// 1.5 milligauss/LSB * 100 nanotesla/milligauss
+const MAG_SCALE: i32 = 150;
