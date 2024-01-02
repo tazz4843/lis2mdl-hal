@@ -4,7 +4,7 @@ use crate::register_map::RegisterMap;
 use crate::{IntSourceReg, ModeOfOperation, Status};
 use core::marker::PhantomData;
 #[cfg(feature = "async")]
-use embedded_hal_async::{delay::DelayUs, i2c::I2c};
+use embedded_hal_async::{delay::DelayNs, i2c::I2c};
 
 #[derive(Debug)]
 pub struct Lis2mdl<I, D> {
@@ -16,7 +16,7 @@ pub struct Lis2mdl<I, D> {
 impl<I, E, D> Lis2mdl<I, D>
 where
     I: I2c<Error = E>,
-    D: DelayUs,
+    D: DelayNs,
 {
     pub fn new(i2c: I) -> Self {
         Self {
